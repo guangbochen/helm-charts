@@ -9,7 +9,7 @@ questions:
     - "LoadBalancer"
   required: true
   label: Nginx Service Type
-  show_subquestion_if: "NodePort"
+  show_subquestion_if: "LoadBalancer"
   group: "Services and Load Balancing"
 - variable: ingress.enabled
   default: "true"
@@ -21,7 +21,26 @@ questions:
   subquestions:
   - variable: ingress.hosts[0]
     default: "xip.io"
-    description: "Hostname to your WordPress installation"
+    description: "Hostname to your app installation"
     type: hostname
     required: true
     label: Hostname
+- variable: postgresql.persistence.enabled
+  default: "false"
+  description: "Enable persistent volume for PostgreSQL"
+  type: boolean
+  required: true
+  label: PostgreSQL Persistent Volume Enabled
+  show_subquestion_if: true
+  group: "PostgreSQL Settings"
+  subquestions:
+  - variable: postgresql.persistence.size
+    default: "10Gi"
+    description: "PostgreSQL Persistent Volume Size"
+    type: string
+    label: PostgreSQL Volume Size
+  - variable: postgresql.persistence.storageClass
+    default: ""
+    description: "If undefined or null, uses the default StorageClass. Default to null"
+    type: storageclass
+    label: Default StorageClass for PostgreSQL
