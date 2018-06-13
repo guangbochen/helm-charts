@@ -1,0 +1,27 @@
+questions:
+- variable: nginx.service.type
+  default: "NodePort"
+  description: "Nginx Service type"
+  type: enum
+  options:
+    - "ClusterIP"
+    - "NodePort"
+    - "LoadBalancer"
+  required: true
+  label: Nginx Service Type
+  show_subquestion_if: "NodePort"
+  group: "Services and Load Balancing"
+- variable: ingress.enabled
+  default: "true"
+  description: "Expose app using Layer 7 Load Balancer - ingress"
+  type: boolean
+  label: Expose app using Layer 7 Load Balancer
+  show_subquestion_if: true
+  group: "Services and Load Balancing"
+  subquestions:
+  - variable: ingress.hosts[0]
+    default: "xip.io"
+    description: "Hostname to your WordPress installation"
+    type: hostname
+    required: true
+    label: Hostname
